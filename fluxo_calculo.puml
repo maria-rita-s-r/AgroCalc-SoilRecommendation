@@ -1,0 +1,30 @@
+@startuml
+
+title Fluxograma - Recomendação de Adubação e Calagem
+
+start
+
+:Informar dados da análise de solo;
+
+:Informar V% atual;
+:Informar CTC;
+:Informar V% desejado;
+
+if (Os dados são válidos?) then (Sim)
+
+    :Calcular necessidade de calcário;
+
+    :Calcular recomendação de adubação;
+
+    :Exibir quantidade recomendada
+    de corretivo e adubo por hectare;
+
+else (Não)
+
+    :Solicitar correção dos dados;
+
+endif
+
+stop
+
+@enduml
