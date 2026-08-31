@@ -1,0 +1,66 @@
+@startuml
+
+' --- Configuração do Estilo do Diagrama ---
+skinparam class {
+    BackgroundColor White
+    ArrowColor #2E7D32
+    BorderColor #1B5E20
+}
+
+skinparam packageStyle rectangle
+
+hide circle
+hide empty members
+
+title Modelo Entidade-Relacionamento (DER) - Adubação e Calagem
+
+package "Aplicação Simplificada" {
+
+    entity "produtor_fazenda" as produtor_fazenda {
+        * id : INTEGER <<PK>>
+        --
+        nome_produtor : VARCHAR(100)
+        nome_fazenda : VARCHAR(100)
+        municipio : VARCHAR(100)
+        criado_em : TIMESTAMP
+    }
+
+    entity "laudo_solo" as laudo_solo {
+        * id : INTEGER <<PK>>
+        --
+        produtor_fazenda_id : INTEGER <<FK>>
+        identificacao_talhao : VARCHAR(50)
+        data_analise : DATE
+        --
+        ph_solo : DECIMAL(4,2)
+        v_porcentagem_atual : DECIMAL(5,2)
+        ctc_mmolc_dm3 : DECIMAL(5,2)
+        p_mg_dm3 : DECIMAL(5,2)
+        k_mmolc_dm3 : DECIMAL(5,2)
+        ca_mmolc_dm3 : DECIMAL(5,2)
+        mg_mmolc_dm3 : DECIMAL(5,2)
+        al_mmolc_dm3 : DECIMAL(5,2)
+    }
+
+    entity "recomendacao" as recomendacao {
+        * id : INTEGER <<PK>>
+        --
+        laudo_id : INTEGER <<FK>>
+        cultura_alvo : VARCHAR(50)
+        v_porcentagem_desejada : DECIMAL(5,2)
+        data_calculo : DATE
+        --
+        necessidade_calcario_t_ha : DECIMAL(5,2)
+        necessidade_gesso_t_ha : DECIMAL(5,2)
+        dose_n_kg_ha : DECIMAL(6,2)
+        dose_p2o5_kg_ha : DECIMAL(6,2)
+        dose_k2o_kg_ha : DECIMAL(6,2)
+        observacoes : TEXT
+    }
+}
+
+' --- Relacionamentos ---
+'produtor_fazenda ||--o{ laudo_solo : "possui"
+'laudo_solo ||--o{ recomendacao : "gera"
+
+@enduml
