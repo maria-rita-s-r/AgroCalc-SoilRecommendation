@@ -1,0 +1,29 @@
+@startuml
+
+title C4 - Diagrama de Contexto
+title Sistema de Recomendação de Adubação e Calagem
+
+left to right direction
+
+actor "Produtor Rural" as produtor
+actor "Engenheiro Agrônomo" as agronomo
+
+rectangle "Sistema de Recomendação de\nAdubação e Calagem" as sistema
+
+rectangle "Laudo de Análise de Solo" as laudo
+
+
+produtor --> sistema : Informa dados da análise de solo
+produtor --> sistema : Informa área de cultivo
+produtor --> sistema : Solicita recomendação
+
+agronomo --> sistema : Analisa dados do solo
+agronomo --> sistema : Consulta resultados
+
+laudo --> sistema : Fornece resultados da\nanálise de solo
+
+sistema --> produtor : Exibe recomendação de\ncalcário e adubação
+
+sistema --> agronomo : Exibe resultados dos cálculos\npara análise técnica
+
+@enduml
