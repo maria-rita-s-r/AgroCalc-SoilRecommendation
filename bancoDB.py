@@ -115,3 +115,4 @@ def criar_banco_de_dados():
 # Executa a função para criar o banco de dados
 if __name__ == "__main__":
     criar_banco_de_dados()
+
