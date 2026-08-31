@@ -1,0 +1,19 @@
+.pagina-cabecalho h1 {
+    font-size: 32px;
+}
+
+.formulario-container {
+    box-shadow: 0 4px 20px rgba(0,0,0,.05);
+}
+
+.tabela-container {
+    border: 1px solid #e2e8e3;
+}
+
+@media (max-width: 700px) {
+
+    .formulario-container {
+        padding: 25px;
+    }
+
+}

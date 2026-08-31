@@ -1,0 +1,96 @@
+.hero {
+    display: grid;
+    grid-template-columns: 1.3fr .7fr;
+    gap: 40px;
+    align-items: center;
+    padding: 60px;
+    background: white;
+    border-radius: 18px;
+    margin-bottom: 60px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.1;
+    margin: 15px 0;
+}
+
+.hero h1 strong {
+    color: #2f714b;
+}
+
+.hero p {
+    max-width: 600px;
+    color: #68756d;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.hero-botoes {
+    display: flex;
+    gap: 10px;
+}
+
+.hero-icone {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf5ef;
+    border-radius: 18px;
+    font-size: 110px;
+}
+
+.titulo-secao {
+    margin-bottom: 25px;
+}
+
+.titulo-secao h2 {
+    margin-top: 8px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e3e9e4;
+    transition: .2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+}
+
+.card > span {
+    font-size: 30px;
+}
+
+.card h3 {
+    margin: 15px 0 8px;
+}
+
+.card p {
+    color: #68756d;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 35px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+}
