@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+Administração de Solo
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/solo.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="solo-cabecalho">
+
+<span class="tag">
+    ADMINISTRAÇÃO
+</span>
+
+<h1>
+    Recomendações de Solo
+</h1>
+
+<p>
+    Histórico das análises e recomendações realizadas.
+</p>
+
+</div>
+
+
+<div class="tabela-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Produtor</th>
+<th>Propriedade</th>
+<th>Talhão</th>
+<th>Cultura</th>
+<th>Calcário</th>
+<th>Dose (t/ha)</th>
+<th>Ações</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for recomendacao in recomendacoes %}
+
+<tr>
+
+<td>
+    {{ recomendacao["produtor_nome"] }}
+</td>
+
+<td>
+    {{ recomendacao["nome_propriedade"] }}
+</td>
+
+<td>
+    {{ recomendacao["nome_talhao"] }}
+</td>
+
+<td>
+    {{ recomendacao["nome_cultura"] }}
+</td>
+
+<td>
+    {{ recomendacao["nome_comercial"] }}
+</td>
+
+<td>
+    {{ "%.2f"|format(recomendacao["dose_calcario_ha"]) }}
+</td>
+
+<td>
+
+<a
+    href="{{ url_for(
+        'documento_solo',
+        recomendacao_id=recomendacao['id']
+    ) }}"
+    class="botao pequeno"
+>
+    Documento
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="7">
+    Nenhuma recomendação registrada.
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

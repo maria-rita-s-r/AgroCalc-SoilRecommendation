@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}
+Laudo de Solo
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/solo.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="solo-cabecalho">
+
+<span class="tag">
+    LAUDO DE SOLO
+</span>
+
+<h1>
+    Dados da análise
+</h1>
+
+<p>
+    Preencha os dados apresentados no laudo de análise de solo.
+</p>
+
+</div>
+
+
+<div class="informacoes-solo">
+
+<div>
+    <strong>Produtor</strong>
+    <span>{{ talhao["produtor_nome"] }}</span>
+</div>
+
+<div>
+    <strong>Propriedade</strong>
+    <span>{{ talhao["nome_propriedade"] }}</span>
+</div>
+
+<div>
+    <strong>Talhão</strong>
+    <span>{{ talhao["nome_talhao"] }}</span>
+</div>
+
+<div>
+    <strong>Cultura</strong>
+    <span>{{ cultura["nome_cultura"] }}</span>
+</div>
+
+</div>
+
+
+<form
+    action="{{ url_for('calcular_solo') }}"
+    method="POST"
+    class="solo-form"
+>
+
+<input
+    type="hidden"
+    name="talhao_id"
+    value="{{ talhao['id'] }}"
+>
+
+<input
+    type="hidden"
+    name="cultura_id"
+    value="{{ cultura['id'] }}"
+>
+
+
+<div class="grupo-form">
+
+<h2>
+    Identificação
+</h2>
+
+<label>
+    Data da coleta
+</label>
+
+<input
+    type="date"
+    name="data_coleta"
+>
+
+</div>
+
+
+<div class="grupo-form">
+
+<h2>
+    Parâmetros principais
+</h2>
+
+
+<div class="grid-form">
+
+<div>
+
+<label>
+    pH
+</label>
+
+<input
+    type="number"
+    name="ph"
+    step="0.01"
+    required
+>
+
+</div>
+
+
+<div>
+
+<label>
+    V1 atual (%)
+</label>
+
+<input
+    type="number"
+    name="v1_atual"
+    step="0.01"
+    required
+>
+
+</div>
+
+
+<div>
+
+<label>
+    CTC T
+</label>
+
+<input
+    type="number"
+    name="ctc_t"
+    step="0.01"
+    required
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grupo-form">
+
+<h2>
+    Nutrientes
+</h2>
+
+
+<div class="grid-form">
+
+<div>
+
+<label>
+    Ca
+</label>
+
+<input
+    type="number"
+    name="ca"
+    step="0.01"
+>
+
+</div>
+
+
+<div>
+
+<label>
+    Mg
+</label>
+
+<input
+    type="number"
+    name="mg"
+    step="0.01"
+>
+
+</div>
+
+
+<div>
+
+<label>
+    K
+</label>
+
+<input
+    type="number"
+    name="k"
+    step="0.01"
+>
+
+</div>
+
+
+<div>
+
+<label>
+    P
+</label>
+
+<input
+    type="number"
+    name="p"
+    step="0.01"
+>
+
+</div>
+
+
+<div>
+
+<label>
+    H + Al
+</label>
+
+<input
+    type="number"
+    name="h_al"
+    step="0.01"
+>
+
+</div>
+
+
+<div>
+
+<label>
+    Argila
+</label>
+
+<input
+    type="number"
+    name="argila"
+    step="0.01"
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="acoes">
+
+<a
+    href="{{ url_for('calculadora_solo') }}"
+    class="botao secundario"
+>
+    Voltar
+</a>
+
+<button
+    type="submit"
+    class="botao principal"
+>
+    Calcular recomendação
+</button>
+
+</div>
+
+</form>
+
+{% endblock %}

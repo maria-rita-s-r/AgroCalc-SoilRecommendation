@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}
+Documentação da Análise
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/solo.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="documento">
+
+<div class="documento-cabecalho">
+
+<span class="tag">
+    DOCUMENTAÇÃO AGRONÔMICA
+</span>
+
+<h1>
+    Documento da Análise de Solo
+</h1>
+
+<p>
+    Registro completo da análise e recomendação.
+</p>
+
+</div>
+
+
+<section>
+
+<h2>
+    Identificação
+</h2>
+
+<div class="documento-grid">
+
+<div>
+<strong>Produtor</strong>
+<span>
+    {{ documento["produtor_nome"] }}
+</span>
+</div>
+
+<div>
+<strong>Telefone</strong>
+<span>
+    {{ documento["telefone"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>Propriedade</strong>
+<span>
+    {{ documento["nome_propriedade"] }}
+</span>
+</div>
+
+<div>
+<strong>Município</strong>
+<span>
+    {{ documento["municipio"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>Estado</strong>
+<span>
+    {{ documento["estado"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>Talhão</strong>
+<span>
+    {{ documento["nome_talhao"] }}
+</span>
+</div>
+
+<div>
+<strong>Área</strong>
+<span>
+    {{ documento["area_ha"] }} ha
+</span>
+</div>
+
+<div>
+<strong>Cultura</strong>
+<span>
+    {{ documento["nome_cultura"] }}
+</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>
+    Análise de Solo
+</h2>
+
+<div class="documento-grid">
+
+<div>
+<strong>Data da coleta</strong>
+<span>
+    {{ documento["data_coleta"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>pH</strong>
+<span>
+    {{ documento["ph"] }}
+</span>
+</div>
+
+<div>
+<strong>V1 atual</strong>
+<span>
+    {{ documento["v1_atual"] }}%
+</span>
+</div>
+
+<div>
+<strong>CTC T</strong>
+<span>
+    {{ documento["ctc_t"] }}
+</span>
+</div>
+
+<div>
+<strong>Ca</strong>
+<span>
+    {{ documento["ca"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>Mg</strong>
+<span>
+    {{ documento["mg"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>K</strong>
+<span>
+    {{ documento["k"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>P</strong>
+<span>
+    {{ documento["p"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>H + Al</strong>
+<span>
+    {{ documento["h_al"] or "-" }}
+</span>
+</div>
+
+<div>
+<strong>Argila</strong>
+<span>
+    {{ documento["argila"] or "-" }}
+</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>
+    Recomendação
+</h2>
+
+<div class="resultado-destaque">
+
+<div>
+
+<span>
+    Calcário
+</span>
+
+<strong>
+    {{ documento["nome_comercial"] }}
+</strong>
+
+</div>
+
+<div>
+
+<span>
+    NC
+</span>
+
+<strong>
+    {{ "%.2f"|format(documento["nc_ha"]) }}
+    t/ha
+</strong>
+
+</div>
+
+<div>
+
+<span>
+    Dose
+</span>
+
+<strong>
+    {{ "%.2f"|format(documento["dose_calcario_ha"]) }}
+    t/ha
+</strong>
+
+</div>
+
+<div>
+
+<span>
+    Total
+</span>
+
+<strong>
+    {{ "%.2f"|format(documento["total_calcario_talhao"]) }}
+    t
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="acoes">
+
+<button
+    onclick="window.print()"
+    class="botao principal"
+>
+    Imprimir documento
+</button>
+
+<a
+    href="{{ url_for('recomendacoes_solo') }}"
+    class="botao secundario"
+>
+    Voltar
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

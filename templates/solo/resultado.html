@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}
+Resultado da Análise
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/solo.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="solo-cabecalho">
+
+<span class="tag">
+    RESULTADO
+</span>
+
+<h1>
+    Recomendação de Solo
+</h1>
+
+<p>
+    Resultado calculado a partir da análise informada.
+</p>
+
+</div>
+
+
+<div class="resultado-grid">
+
+
+<div class="resultado-card">
+
+<span>
+    Cultura
+</span>
+
+<strong>
+    {{ recomendacao["nome_cultura"] }}
+</strong>
+
+</div>
+
+
+<div class="resultado-card">
+
+<span>
+    Talhão
+</span>
+
+<strong>
+    {{ recomendacao["nome_talhao"] }}
+</strong>
+
+</div>
+
+
+<div class="resultado-card">
+
+<span>
+    Área
+</span>
+
+<strong>
+    {{ "%.2f"|format(recomendacao["area_ha"]) }}
+    ha
+</strong>
+
+</div>
+
+
+<div class="resultado-card">
+
+<span>
+    V1 atual
+</span>
+
+<strong>
+    {{ recomendacao["v1_atual"] }}%
+</strong>
+
+</div>
+
+
+</div>
+
+
+<section class="recomendacao-principal">
+
+<h2>
+    Recomendação de Calcário
+</h2>
+
+
+<div class="resultado-destaque">
+
+<div>
+
+<span>
+    Necessidade de calcário
+</span>
+
+<strong>
+    {{ "%.2f"|format(recomendacao["nc_ha"]) }}
+    t/ha
+</strong>
+
+</div>
+
+
+<div>
+
+<span>
+    Dose corrigida pelo PRNT
+</span>
+
+<strong>
+    {{ "%.2f"|format(recomendacao["dose_calcario_ha"]) }}
+    t/ha
+</strong>
+
+</div>
+
+
+<div>
+
+<span>
+    Total para o talhão
+</span>
+
+<strong>
+    {{ "%.2f"|format(recomendacao["total_calcario_talhao"]) }}
+    t
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="acoes">
+
+<a
+    href="{{ url_for('recomendacoes_solo') }}"
+    class="botao secundario"
+>
+    Ver histórico
+</a>
+
+<a
+    href="{{ url_for('documento_solo', recomendacao_id=recomendacao['id']) }}"
+    class="botao principal"
+>
+    Ver documentação
+</a>
+
+</div>
+
+{% endblock %}

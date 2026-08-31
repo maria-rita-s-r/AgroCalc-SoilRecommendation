@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+Calculadora de Solo
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/solo.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="solo-cabecalho">
+
+<span class="tag">
+    ANÁLISE AGRONÔMICA
+</span>
+
+<h1>
+    Calculadora de Solo
+</h1>
+
+<p>
+    Selecione o talhão e a cultura para iniciar
+    a análise.
+</p>
+
+</div>
+
+
+<div class="solo-card">
+
+<form
+    action="{{ url_for('formulario_solo') }}"
+    method="GET"
+>
+
+
+<label>
+    Talhão
+</label>
+
+<select
+    name="talhao_id"
+    required
+>
+
+<option value="">
+    Selecione o talhão
+</option>
+
+{% for talhao in talhoes %}
+
+<option value="{{ talhao['id'] }}">
+
+{{ talhao["nome_talhao"] }}
+-
+{{ talhao["nome_propriedade"] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+
+<label>
+    Cultura
+</label>
+
+<select
+    name="cultura_id"
+    required
+>
+
+<option value="">
+    Selecione a cultura
+</option>
+
+{% for cultura in culturas %}
+
+<option value="{{ cultura['id'] }}">
+
+{{ cultura["nome_cultura"] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+
+<button
+    type="submit"
+    class="botao principal"
+>
+    Continuar
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}
