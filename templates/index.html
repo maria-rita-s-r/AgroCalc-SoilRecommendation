@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroCalc - Sistema de Recomendação de Solo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/"><i class="bi bi-tree-fill me-2"></i>AgroCalc</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/produtores">Produtores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/propriedades">Propriedades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/talhoes">Talhões</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/culturas">Culturas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/calcarios">Calcários</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/fertilizantes">Fertilizantes</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border-start border-success border-5">
+            <h1 class="display-5 fw-bold text-success">Sistema AgroCalc</h1>
+            <p class="col-md-8 fs-5 text-muted">Gestão agronômica, análise de solo e recomendações de calagem e adubação em um só lugar.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Card Calculadora -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="fs-1 text-success mb-3"><i class="bi bi-calculator-fill"></i></div>
+                        <h5 class="card-title fw-bold">Calculadora de Solo</h5>
+                        <p class="card-text text-muted">Realize o cálculo de necessidade de calagem (NC) e adubação para o talhão.</p>
+                        <a href="/solo/calculadora" class="btn btn-success w-100">Nova Análise</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Recomendações Saved -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="fs-1 text-primary mb-3"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <h5 class="card-title fw-bold">Recomendações</h5>
+                        <p class="card-text text-muted">Acesse o histórico de laudos gerados e imprima a documentação final.</p>
+                        <a href="/solo/recomendacoes" class="btn btn-primary w-100">Ver Histórico</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cadastros Rápidos -->
+            <div class="col-md-12 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3"><i class="bi bi-gear-fill me-2 text-secondary"></i>Cadastros de Base</h5>
+                        <div class="list-group list-group-flush">
+                            <a href="/produtores" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Produtores <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                            <a href="/propriedades" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Propriedades <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                            <a href="/talhoes" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Talhões <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                            <a href="/culturas" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Culturas & V2% <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                            <a href="/calcarios" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Calcários & PRNT <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
