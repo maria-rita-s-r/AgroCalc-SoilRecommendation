@@ -1,3 +1,0 @@
-Olá!
-
-Este é meu primeiro arquivo usando Git.
