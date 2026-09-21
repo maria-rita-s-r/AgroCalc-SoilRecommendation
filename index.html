@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Pior UX Possível - Versão 5 Segundos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        body {
+            background-color: #ff0000;
+            color: #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        h1, h2, p {
+            text-shadow: 2px 2px #000;
+            margin-bottom: 20px;
+        }
+
+        input {
+            background-color: #000;
+            color: #00ff00;
+            border: 3px dashed #00ff00;
+            padding: 12px;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+            width: 320px;
+        }
+
+        button {
+            background-color: #000;
+            color: #00ff00;
+            border: 3px solid #00ff00;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 3px 3px #00ff00;
+            transition: 0.1s;
+        }
+
+        button:hover {
+            background-color: #00ff00;
+            color: #ff0000;
+        }
+
+        /* Pop-up de Pânico */
+        #panic-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #ff0000;
+            border: 6px solid #00ff00;
+            padding: 30px;
+            text-align: center;
+            max-width: 550px;
+            box-shadow: 0 0 40px #00ff00;
+        }
+
+        .shaking {
+            animation: shake 0.12s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(3px, 3px) rotate(0deg); }
+            20% { transform: translate(-4px, -2px) rotate(-1deg); }
+            40% { transform: translate(-3px, 4px) rotate(2deg); }
+            60% { transform: translate(4px, 1px) rotate(-1deg); }
+            80% { transform: translate(-2px, -4px) rotate(1deg); }
+            100% { transform: translate(2px, 3px) rotate(0deg); }
+        }
+
+        .virtual-keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .fake-btn {
+            position: absolute;
+            padding: 8px 12px;
+            font-size: 12px;
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            cursor: pointer;
+        }
+
+        .running-btn {
+            position: relative;
+            animation: runAround 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes runAround {
+            0% { transform: translate(-60px, -10px); }
+            50% { transform: translate(60px, 15px); }
+            100% { transform: translate(-40px, -15px); }
+        }
+
+        .captcha-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .captcha-box {
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .contract-box {
+            background: #000;
+            color: #00ff00;
+            border: 2px dashed #00ff00;
+            height: 150px;
+            width: 80%;
+            max-width: 500px;
+            overflow-y: scroll;
+            text-align: left;
+            padding: 10px;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TELA 1: LOGIN -->
+    <div id="screen-login" class="screen active">
+        <h1>SISTEMA DE LOGIN ULTRASSEGURO</h1>
+        <p>Digite seu usuário (Cuidado, o teclado inverte letras):</p>
+        <input type="text" id="username" placeholder="Usuário..." autocomplete="off" oninput="baguncarInput(this)">
+        <p>Digite sua senha (Dispara o pânico):</p>
+        <input type="password" id="password" placeholder="Sua senha secreta" autocomplete="off">
+        <br>
+        <button onclick="alert('Erro 404: Botão de login quebrado! Use o campo de senha.')">Entrar no Sistema</button>
+    </div>
+
+    <!-- POP-UP DE PÂNICO (5 Segundos) -->
+    <div id="panic-modal">
+        <div class="modal-content">
+            <h2 style="color: yellow; text-shadow: 2px 2px #000;">⚠️ ALERTA CRÍTICO DE SEGURANÇA ⚠️</h2>
+            <p style="font-size: 18px; font-weight: bold;">Seu computador foi clonado, vc tem 5s para salvar suas informações e impedir o roubo!</p>
+            <h1 id="timer" style="font-size: 60px; color: #ffff00;">5</h1>
+            <p>Clique nos botões abaixo para tentar abortar o vírus:</p>
+            <div style="position: relative; height: 90px;">
+                <button class="fake-btn" style="top: 10px; left: 10px;" onclick="penalizeTimer()">SALVAR DADOS</button>
+                <button class="fake-btn" style="top: 45px; right: 10px;" onclick="penalizeTimer()">BLOQUEAR HACKER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA 2: CADASTRO PARA SALVAR DADOS -->
+    <div id="screen-cadastro" class="screen">
+        <h1>⚠️ CADASTRO PARA SALVAR DADOS ⚠️</h1>
+        <p>O sistema gerou uma senha aleatória de 4 dígitos. Adivinhe por tentativa e erro!</p>
+        <p>Senha Gerada Automaticamente: <strong id="generated-pass" style="background:#000; padding:5px; color: yellow;">****</strong></p>
+        
+        <input type="password" id="confirm-pass" placeholder="Confirme a senha exata" readonly>
+        
+        <p style="font-size: 14px;">Teclado Virtual Embaralhado:</p>
+        <div class="virtual-keyboard" id="keyboard"></div>
+        <br>
+        <button onclick="verificarCadastro()">Validar e Avançar</button>
+    </div>
+
+    <!-- TELA 3: CAPTCHA IMPOSSÍVEL -->
+    <div id="screen-captcha" class="screen">
+        <h1>🛡️ VERIFICAÇÃO ANTI-ROBÔ 🛡️</h1>
+        <p>Selecione todas as caixas que contenham <b>"ESTE CAMPO ESTÁ VAZIO"</b>. (Cuidado: 1 erro reiniza o desafio!):</p>
+        <div class="captcha-grid" id="captcha-container"></div>
+        <button onclick="alert('Erro de verificação! Você clicou onde não devia. Reiniciando captcha...'); carregarCaptcha();">Verificar Resposta</button>
+    </div>
+
+    <!-- TELA 4: HOME -->
+    <div id="screen-home" class="screen">
+        <h1>BEM-VINDO À PÁGINA HOME</h1>
+        <p style="font-size: 22px; color: yellow;">Agora você precisa sair rapidamente!</p>
+        <br>
+        <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <button onclick="alert('Pop-up: Baixe seu antivírus grátis!')">Baixar Vírus Grátis</button>
+            <button class="running-btn" id="real-logout-btn" onclick="irParaContrato()" style="background: #00ff00; color: #ff0000; border: 3px dashed #000;">SAIR DA CONTA</button>
+        </div>
+    </div>
+
+    <!-- TELA 5: TERMO DE CONSENTIMENTO MALIGNO -->
+    <div id="screen-contrato" class="screen">
+        <h1>📜 TERMOS DE SAÍDA DO SISTEMA 📜</h1>
+        <p>Você deve ler o contrato abaixo até o final para liberar a saída:</p>
+        <div class="contract-box" id="contract-text"></div>
+        <div style="margin-bottom: 15px;">
+            <input type="checkbox" id="agree-check" style="width: 20px; height: 20px; display: inline-block;">
+            <label for="agree-check" style="font-size: 13px;">Concordo em doar minha alma e todos os meus dados.</label>
+        </div>
+        <button onclick="validarContrato()">Avançar para o Logout Final</button>
+    </div>
+
+    <!-- TELA 6: LOGOUT DESAFIO FINAL -->
+    <div id="screen-logout" class="screen">
+        <h1>CONFIRMAÇÃO DE SAÍDA</h1>
+        <p>Para sair com segurança, digite a palavra <b>SAIR</b> de trás para frente:</p>
+        <input type="text" id="logout-input" placeholder="Digite aqui..." oninput="checarAutoApagar()">
+        <br>
+        <button onclick="validarLogout()">Confirmar Logout</button>
+    </div>
+
+    <!-- TELA 7: VITÓRIA FINAL -->
+    <div id="screen-vitoria" class="screen">
+        <h1 style="font-size: 45px; color: #ffff00;">🎉 PARABÉNS! 🎉</h1>
+        <p style="font-size: 26px; font-weight: bold; margin-top: 30px; text-shadow: 3px 3px #000;">Parabéns vc teve a pior experiência de site possível</p>
+    </div>
+
+    <script>
+        const passInput = document.getElementById('password');
+        const panicModal = document.getElementById('panic-modal');
+        const timerDisplay = document.getElementById('timer');
+        let countdown;
+        let randomSecretPass = String(Math.floor(1000 + Math.random() * 9000));
+        let typedConfirm = "";
+        let logoutTimeout;
+        let captchaCorretoIndex = 0;
+
+        passInput.addEventListener('focus', () => {
+            if (!panicModal.style.display || panicModal.style.display === 'flex') {
+                iniciarPanico();
+            }
+        });
+
+        function baguncarInput(input) {
+            if (Math.random() > 0.7 && input.value.length > 1) {
+                let arr = input.value.split('');
+                let temp = arr[arr.length - 1];
+                arr[arr.length - 1] = arr[arr.length - 2];
+                arr[arr.length - 2] = temp;
+                input.value = arr.join('');
+            }
+        }
+
+        function iniciarPanico() {
+            panicModal.style.display = 'flex';
+            document.body.classList.add('shaking');
+            let timeLeft = 5; // Ajustado para 5 segundos
+            timerDisplay.textContent = timeLeft;
+
+            clearInterval(countdown);
+            countdown = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    panicModal.style.display = 'none';
+                    document.body.classList.remove('shaking');
+                    irParaCadastro();
+                }
+            }, 1000);
+        }
+
+        function penalizeTimer() {
+            let current = parseInt(timerDisplay.textContent);
+            if (current > 1) {
+                timerDisplay.textContent = current - 1;
+            }
+        }
+
+        function irParaCadastro() {
+            document.getElementById('screen-login').classList.remove('active');
+            document.getElementById('screen-cadastro').classList.add('active');
+            document.getElementById('generated-pass').textContent = randomSecretPass;
+            renderKeyboard();
+        }
+
+        function renderKeyboard() {
+            const kb = document.getElementById('keyboard');
+            kb.innerHTML = '';
+            let numbers = ['0','1','2','3','4','5','6','7','8','9'].sort(() => Math.random() - 0.5);
+            
+            numbers.forEach(num => {
+                let btn = document.createElement('button');
+                btn.textContent = num;
+                btn.style.padding = "10px";
+                btn.onclick = () => {
+                    typedConfirm += num;
+                    document.getElementById('confirm-pass').value = "*".repeat(typedConfirm.length);
+                    renderKeyboard();
+                };
+                kb.appendChild(btn);
+            });
+
+            let clearBtn = document.createElement('button');
+            clearBtn.textContent = 'CLS';
+            clearBtn.style.color = 'yellow';
+            clearBtn.onclick = () => {
+                typedConfirm = '';
+                document.getElementById('confirm-pass').value = '';
+            };
+            kb.appendChild(clearBtn);
+        }
+
+        function verificarCadastro() {
+            if (typedConfirm === randomSecretPass) {
+                document.getElementById('screen-cadastro').classList.remove('active');
+                document.getElementById('screen-captcha').classList.add('active');
+                carregarCaptcha();
+            } else {
+                alert('Senha incorreta! O sistema gerou uma nova senha.');
+                randomSecretPass = String(Math.floor(1000 + Math.random() * 9000));
+                document.getElementById('generated-pass').textContent = randomSecretPass;
+                typedConfirm = '';
+                document.getElementById('confirm-pass').value = '';
+                renderKeyboard();
+            }
+        }
+
+        function carregarCaptcha() {
+            const container = document.getElementById('captcha-container');
+            container.innerHTML = '';
+            captchaCorretoIndex = Math.floor(Math.random() * 6);
+            
+            for (let i = 0; i < 6; i++) {
+                let box = document.createElement('div');
+                box.className = 'captcha-box';
+                if (i === captchaCorretoIndex) {
+                    box.textContent = "ESTE CAMPO ESTÁ VAZIO";
+                    box.onclick = () => {
+                        document.getElementById('screen-captcha').classList.remove('active');
+                        document.getElementById('screen-home').classList.add('active');
+                    };
+                } else {
+                    box.textContent = "Erro " + Math.floor(Math.random() * 999);
+                    box.onclick = () => {
+                        alert('Incorreto! Você falhou no teste anti-robô. Recarregando...');
+                        carregarCaptcha();
+                    };
+                }
+                container.appendChild(box);
+            }
+        }
+
+        function irParaContrato() {
+            document.getElementById('screen-home').classList.remove('active');
+            document.getElementById('screen-contrato').classList.add('active');
+            
+            let txt = "";
+            for(let i=1; i<=150; i++) {
+                txt += `Cláusula ${i}: O usuário concorda com absolutamente nada e renuncia a tudo.<br>`;
+            }
+            document.getElementById('contract-text').innerHTML = txt;
+        }
+
+        function validarContrato() {
+            let checked = document.getElementById('agree-check').checked;
+            if (checked) {
+                document.getElementById('screen-contrato').classList.remove('active');
+                document.getElementById('screen-logout').classList.add('active');
+            } else {
+                alert('Você precisa aceitar os termos antes de prosseguir!');
+            }
+        }
+
+        function checarAutoApagar() {
+            clearTimeout(logoutTimeout);
+            logoutTimeout = setTimeout(() => {
+                document.getElementById('logout-input').value = '';
+                alert('Inatividade detectada! O sistema limpou seu texto.');
+            }, 3500);
+        }
+
+        function validarLogout() {
+            clearTimeout(logoutTimeout);
+            let val = document.getElementById('logout-input').value.trim().toUpperCase();
+            if (val === 'RIAS') {
+                document.getElementById('screen-logout').classList.remove('active');
+                document.getElementById('screen-vitoria').classList.add('active');
+            } else {
+                alert('Incorreto! Lembre-se: digite SAIR de trás para frente.');
+            }
+        }
+    </script>
+</body>
+</html>
